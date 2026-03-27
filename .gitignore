@@ -4,6 +4,10 @@
 .claude/memory/episodic/*.md
 !.claude/memory/episodic/.gitkeep
 
+# Local settings and logs
+.claude/settings.local.json
+*.log
+
 # OS
 .DS_Store
 Thumbs.db
