@@ -22,7 +22,7 @@ claude "/ship"           # Ship via gstack pipeline
 ├── agents/        coordinator, implementer, reviewer, tester
 ├── skills/        /init-project, /plan, /dispatch, /ship
 ├── rules/         quality, git, security, context mgmt
-├── hooks/         8 hooks covering full lifecycle (exit-2 blocking)
+├── hooks/         9 hooks covering full lifecycle (exit-2 blocking)
 ├── docs/          PROMPT, PLAN, PROGRESS, CONVENTIONS
 ├── templates/     CLAUDE.md + AGENTS.md by stack type
 ├── metrics/       Agent outcome logs (JSON-lines)
