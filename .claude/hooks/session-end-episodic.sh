@@ -20,8 +20,8 @@ fi
 
 # Extract summary stats from trace
 TOOL_COUNT=$(wc -l < "$LATEST_TRACE" | tr -d ' ')
-EDIT_COUNT=$(grep -c '"tool":"Edit"' "$LATEST_TRACE" 2>/dev/null || echo "0")
-BASH_COUNT=$(grep -c '"tool":"Bash"' "$LATEST_TRACE" 2>/dev/null || echo "0")
+EDIT_COUNT=$(grep -c '"tool":"Edit"' "$LATEST_TRACE" 2>/dev/null) || EDIT_COUNT=0
+BASH_COUNT=$(grep -c '"tool":"Bash"' "$LATEST_TRACE" 2>/dev/null) || BASH_COUNT=0
 FILES_TOUCHED=$(grep '"tool":"Edit"' "$LATEST_TRACE" 2>/dev/null | jq -r '.file' 2>/dev/null | sort -u | head -10 || echo "")
 
 # Extract metrics
