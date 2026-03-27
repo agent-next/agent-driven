@@ -14,7 +14,7 @@ Append-only audit log. Updated by hooks and agents.
 - Added: post-tool-use-trace (JSON-lines action logging)
 - Added: subagent-stop-metrics (outcome logging + test verification)
 - Added: pre-compact-rotation (65% context rotation enforcement)
-- Added: session-start-handover (auto episodic memory)
+- Added: session-end-episodic (auto episodic memory)
 - Commit: d47b5ac
 
 ### 16:44 - Context management docs
