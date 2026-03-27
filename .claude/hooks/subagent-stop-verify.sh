@@ -23,8 +23,10 @@ if [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
     exit 2
   fi
 elif [ -f "package.json" ] && grep -q '"test"' package.json 2>/dev/null; then
-  RESULT=$(npm test 2>&1 | tail -1)
+  npm test > /tmp/agent-npm-test-$$.txt 2>&1
   RC=$?
+  RESULT=$(tail -1 /tmp/agent-npm-test-$$.txt)
+  rm -f /tmp/agent-npm-test-$$.txt
   if [ $RC -ne 0 ]; then
     echo "REJECTED: Tests failing after agent changes: $RESULT"
     exit 2

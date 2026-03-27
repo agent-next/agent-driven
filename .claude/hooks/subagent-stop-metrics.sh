@@ -44,8 +44,10 @@ if [ "$STATUS" = "success" ]; then
       TEST_RESULT="pass"
     fi
   elif [ -f "package.json" ] && grep -q '"test"' package.json 2>/dev/null; then
-    TEST_OUTPUT=$(npm test 2>&1 | tail -1)
+    npm test > /tmp/agent-npm-test-$$.txt 2>&1
     RC=$?
+    TEST_OUTPUT=$(tail -1 /tmp/agent-npm-test-$$.txt)
+    rm -f /tmp/agent-npm-test-$$.txt
     if [ $RC -ne 0 ]; then
       STATUS="test_failure"
       REJECT_REASON="Tests failing: $TEST_OUTPUT"
