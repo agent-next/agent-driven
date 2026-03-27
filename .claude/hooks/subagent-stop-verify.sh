@@ -6,7 +6,8 @@ set -euo pipefail
 
 # Check if agent produced any git changes
 DIFF_STAT=$(git diff --stat HEAD 2>/dev/null)
-COMMITS=$(git log --oneline main..HEAD 2>/dev/null | wc -l | tr -d ' ')
+DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")
+COMMITS=$(git log --oneline "$DEFAULT_BRANCH"..HEAD 2>/dev/null | wc -l | tr -d ' ')
 
 if [ -z "$DIFF_STAT" ] && [ "$COMMITS" = "0" ]; then
   echo "REJECTED: Agent produced no changes. Empty output detected."

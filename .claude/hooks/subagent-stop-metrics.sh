@@ -12,7 +12,8 @@ mkdir -p "$METRICS_DIR" "$TRACES_DIR"
 
 # Check if agent produced any git changes
 DIFF_STAT=$(git diff --stat HEAD 2>/dev/null || echo "")
-COMMITS=$(git log --oneline main..HEAD 2>/dev/null | wc -l | tr -d ' ')
+DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")
+COMMITS=$(git log --oneline "$DEFAULT_BRANCH"..HEAD 2>/dev/null | wc -l | tr -d ' ')
 FILES_CHANGED=$(git diff --name-only HEAD 2>/dev/null | wc -l | tr -d ' ')
 
 # Count tests
