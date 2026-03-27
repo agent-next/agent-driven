@@ -34,7 +34,7 @@ fi
 TEST_RESULT="skipped"
 if [ "$STATUS" = "success" ]; then
   if [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
-    TEST_OUTPUT=$(python3 -m pytest --tb=line -q --no-header 2>&1 | tail -1 || true)
+    TEST_OUTPUT=$(python3 -m pytest --tb=line -q --no-header 2>&1 | tail -1)
     if echo "$TEST_OUTPUT" | grep -qE "failed|error"; then
       STATUS="test_failure"
       REJECT_REASON="Tests failing: $TEST_OUTPUT"
@@ -43,8 +43,9 @@ if [ "$STATUS" = "success" ]; then
       TEST_RESULT="pass"
     fi
   elif [ -f "package.json" ] && grep -q '"test"' package.json 2>/dev/null; then
-    TEST_OUTPUT=$(npm test 2>&1 | tail -1 || true)
-    if [ $? -ne 0 ]; then
+    TEST_OUTPUT=$(npm test 2>&1 | tail -1)
+    RC=$?
+    if [ $RC -ne 0 ]; then
       STATUS="test_failure"
       REJECT_REASON="Tests failing: $TEST_OUTPUT"
       TEST_RESULT="fail"
