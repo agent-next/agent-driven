@@ -24,7 +24,7 @@
         ]
       },
       {
-        "matcher": "Bash|Edit|Write|Read|Glob|Grep",
+        "matcher": "Bash|Edit|Write",
         "hooks": [
           {
             "type": "command",
@@ -81,7 +81,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/session-start-handover.sh",
+            "command": "bash .claude/hooks/session-end-episodic.sh",
             "timeout": 15
           }
         ]
