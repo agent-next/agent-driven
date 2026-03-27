@@ -2,6 +2,8 @@
 # SubagentStop hook: verify agent produced meaningful output
 # Exit 2 = reject agent output (agent will be retried)
 
+set -euo pipefail
+
 # Check if agent produced any git changes
 DIFF_STAT=$(git diff --stat HEAD 2>/dev/null)
 COMMITS=$(git log --oneline main..HEAD 2>/dev/null | wc -l | tr -d ' ')

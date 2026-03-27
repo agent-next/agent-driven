@@ -4,6 +4,8 @@
 # The actual timeout is handled by maxTurns in agent definitions.
 # This hook logs activity for observability.
 
+set -uo pipefail
+
 TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 TOOL=$(jq -r '.tool_name // "unknown"' 2>/dev/null || echo "unknown")
 TRACES_DIR=".claude/traces"

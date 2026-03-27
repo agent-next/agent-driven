@@ -2,6 +2,8 @@
 # PostToolUse hook: auto-lint after Edit/Write
 # Non-blocking (exit 0 always) but reports issues
 
+set -uo pipefail
+
 FILE_PATH=$(jq -r '.tool_input.file_path // empty')
 [ -z "$FILE_PATH" ] || [ ! -f "$FILE_PATH" ] && exit 0
 
