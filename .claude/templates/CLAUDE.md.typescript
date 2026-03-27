@@ -1,0 +1,33 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code when working with this repository.
+
+## Project
+
+<!-- One line: what is this? -->
+
+## Stack
+
+- TypeScript 5+, Node 22+, package manager: npm/pnpm
+- Framework: <!-- React / Next.js / Express / Hono -->
+- Tests: vitest / jest
+
+## Commands
+
+```bash
+npm install                # Install dependencies
+npm run dev                # Dev server
+npm test                   # Run tests
+npm run lint               # ESLint
+npx tsc --noEmit           # Type check
+```
+
+## Architecture
+
+<!-- 3-5 lines: key directories and their purpose -->
+
+## Conventions
+
+- Strict TypeScript (no `any`, no `@ts-ignore` without justification)
+- Use `.js` extensions in imports (ESM)
+- Conventional commits: `feat(scope):`, `fix(scope):`, `test:`, etc.
