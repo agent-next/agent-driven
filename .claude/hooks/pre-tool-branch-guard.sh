@@ -2,10 +2,10 @@
 # PreToolUse hook: block dangerous git operations on main/master
 # Exit 2 = block the tool call
 
-set -euo pipefail
+set -uo pipefail
 
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || echo "")
 [ -z "$COMMAND" ] && exit 0
 
 # Block commits/pushes on protected branches
