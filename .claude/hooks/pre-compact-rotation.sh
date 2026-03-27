@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PreCompact hook: enforce 65% context rotation protocol
-# Warns at 60%, forces ROTATION-HANDOVER.md at 70%
+# Warns at 55%, forces ROTATION-HANDOVER.md at 65%
 # Exit 2 = block compaction, force handover instead
 
 set -euo pipefail
@@ -18,7 +18,7 @@ mkdir -p "$METRICS_DIR"
 # Log context event
 echo "{\"ts\":\"$TS\",\"event\":\"pre_compact\",\"context_pct\":$CONTEXT_PCT}" >> "$METRICS_DIR/context-rotation.jsonl"
 
-if [ "$CONTEXT_PCT" -ge 70 ]; then
+if [ "$CONTEXT_PCT" -ge 65 ]; then
   echo "=== CONTEXT ROTATION REQUIRED (at ${CONTEXT_PCT}%) ==="
   echo "Write ROTATION-HANDOVER.md NOW with:"
   echo "  1. Completed: [list of done items]"
@@ -31,12 +31,12 @@ if [ "$CONTEXT_PCT" -ge 70 ]; then
   echo ""
   echo "Do NOT let context auto-compact. Proactive rotation preserves quality."
   exit 2
-elif [ "$CONTEXT_PCT" -ge 60 ]; then
+elif [ "$CONTEXT_PCT" -ge 55 ]; then
   echo "=== CONTEXT WARNING (at ${CONTEXT_PCT}%) ==="
   echo "Approaching rotation threshold. Consider wrapping up current subtask"
   echo "and preparing ROTATION-HANDOVER.md for a clean session handover."
   echo ""
-  echo "At 70%: rotation becomes MANDATORY (hook will block)."
+  echo "At 65%: rotation becomes MANDATORY (hook will block)."
   exit 0
 fi
 
