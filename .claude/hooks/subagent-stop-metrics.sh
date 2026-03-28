@@ -70,7 +70,7 @@ if [ "$STATUS" = "success" ]; then
 fi
 
 # Log outcome
-OUTCOME=$(jq -n \
+OUTCOME=$(jq -n -c \
   --arg ts "$TS" \
   --arg status "$STATUS" \
   --arg commits "$COMMITS" \

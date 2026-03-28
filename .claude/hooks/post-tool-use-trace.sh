@@ -19,7 +19,7 @@ FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // 
 PATTERN=$(echo "$INPUT" | jq -r '.tool_input.pattern // empty' 2>/dev/null || echo "")
 
 # Build trace entry
-ENTRY=$(jq -n \
+ENTRY=$(jq -n -c \
   --arg ts "$TS" \
   --arg tool "$TOOL" \
   --arg file "$FILE_PATH" \
