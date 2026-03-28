@@ -4,7 +4,7 @@
 # The actual timeout is handled by maxTurns in agent definitions.
 # This hook logs activity for observability.
 # Requires: jq, date
-# shellcheck shell=sh
+# shellcheck shell=bash
 
 set -uo pipefail
 

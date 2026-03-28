@@ -4,7 +4,7 @@
 # Requires: jq, git, date
 # Optional: python3 (pytest), ruff, npm
 
-# shellcheck shell=sh
+# shellcheck shell=bash
 
 set -uo pipefail
 

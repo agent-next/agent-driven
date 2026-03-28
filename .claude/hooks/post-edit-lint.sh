@@ -4,7 +4,7 @@
 # Requires: jq (graceful skip if missing)
 # Optional: ruff (Python), prettier (JS/TS)
 
-# shellcheck shell=sh
+# shellcheck shell=bash
 
 set -uo pipefail
 

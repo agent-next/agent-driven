@@ -4,7 +4,7 @@
 # Exit 2 = block compaction, force handover instead
 # Requires: jq, date
 
-# shellcheck shell=sh
+# shellcheck shell=bash
 
 set -uo pipefail
 
@@ -14,6 +14,12 @@ TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 # Extract context usage percentage (CC provides this in PreCompact event)
 # Default to 65 if not parseable. Truncate float to int for bash comparison.
 CONTEXT_PCT=$(echo "$INPUT" | jq -r '.context_usage_percent // 65' 2>/dev/null || echo "65")
+
+# Validate numeric before comparison
+if ! echo "$CONTEXT_PCT" | grep -qE '^[0-9]+\.?[0-9]*$'; then
+  exit 0  # can't parse, skip silently
+fi
+
 CONTEXT_INT=${CONTEXT_PCT%.*}
 CONTEXT_INT=${CONTEXT_INT:-0}
 

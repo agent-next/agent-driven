@@ -3,7 +3,7 @@
 # Lightweight (<5ms overhead). Appends JSON-lines to .claude/traces/
 # Requires: jq
 
-# shellcheck shell=sh
+# shellcheck shell=bash
 
 set -uo pipefail
 

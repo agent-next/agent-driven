@@ -3,7 +3,7 @@
 # Exit 2 = block the tool call
 # Requires: jq, git
 
-# shellcheck shell=sh
+# shellcheck shell=bash
 
 set -uo pipefail
 
