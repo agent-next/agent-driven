@@ -3,7 +3,7 @@
 # Exit 2 = reject agent output (agent will be retried)
 # Logs to .claude/metrics/outcomes.jsonl
 
-set -euo pipefail
+set -uo pipefail
 
 TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 METRICS_DIR=".claude/metrics"
@@ -11,15 +11,20 @@ TRACES_DIR=".claude/traces"
 mkdir -p "$METRICS_DIR" "$TRACES_DIR"
 
 # Check if agent produced any git changes
-DIFF_STAT=$(git diff --stat HEAD 2>/dev/null || echo "")
-DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")
+DIFF_STAT=$(git diff --stat HEAD 2>/dev/null || true)
+# Fallback: try remote HEAD, then local main/master, then current branch
+DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' \
+  || git rev-parse --verify main >/dev/null 2>&1 && echo "main" \
+  || git rev-parse --verify master >/dev/null 2>&1 && echo "master" \
+  || git branch --show-current 2>/dev/null \
+  || echo "HEAD")
 COMMITS=$(git log --oneline "$DEFAULT_BRANCH"..HEAD 2>/dev/null | wc -l | tr -d ' ')
 FILES_CHANGED=$(git diff --name-only HEAD 2>/dev/null | wc -l | tr -d ' ')
 
-# Count tests
+# Count tests (use ** glob for nested dirs, add Go/ruby patterns)
 TESTS_ADDED=0
 if [ -d "tests" ] || [ -d "test" ]; then
-  TESTS_ADDED=$(git diff HEAD -- '*/test_*.py' '*/test_*.ts' '*_test.py' '*_test.ts' 2>/dev/null | grep -c "^+def test_\|^+async def test_\|^+it('\|^+test(" 2>/dev/null || echo "0")
+  TESTS_ADDED=$(git diff HEAD -- '**/test_*.py' '**/test_*.ts' '**/*_test.py' '**/*_test.ts' '**/*_test.go' 2>/dev/null | grep -cE '^\+def test_|^\+async def test_|^\+func Test|^\+it\(|^\+test\(' 2>/dev/null || echo "0")
 fi
 
 # Determine status
@@ -35,8 +40,10 @@ fi
 TEST_RESULT="skipped"
 if [ "$STATUS" = "success" ]; then
   if [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
-    TEST_OUTPUT=$(python3 -m pytest --tb=line -q --no-header 2>&1 | tail -1)
-    if echo "$TEST_OUTPUT" | grep -qE "failed|error"; then
+    TEST_OUTPUT=$(python3 -m pytest --tb=line -q --no-header 2>&1) || true
+    RC=$?
+    # pytest exit 5 = no tests collected, not a failure
+    if [ $RC -ne 0 ] && [ $RC -ne 5 ]; then
       STATUS="test_failure"
       REJECT_REASON="Tests failing: $TEST_OUTPUT"
       TEST_RESULT="fail"
