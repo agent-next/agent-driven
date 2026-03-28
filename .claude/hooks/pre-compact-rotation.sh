@@ -2,8 +2,11 @@
 # PreCompact hook: enforce 65% context rotation protocol
 # Warns at 55%, forces ROTATION-HANDOVER.md at 65%
 # Exit 2 = block compaction, force handover instead
+# Requires: jq, date
 
-set -euo pipefail
+# shellcheck shell=sh
+
+set -uo pipefail
 
 INPUT=$(cat)
 TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)

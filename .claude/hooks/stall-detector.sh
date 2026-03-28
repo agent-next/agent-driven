@@ -3,6 +3,8 @@
 # Tracks last activity time. If called, agent is active (not stalled).
 # The actual timeout is handled by maxTurns in agent definitions.
 # This hook logs activity for observability.
+# Requires: jq, date
+# shellcheck shell=sh
 
 set -uo pipefail
 

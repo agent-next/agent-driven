@@ -2,6 +2,10 @@
 # SubagentStop hook: verify agent output and log outcome metrics
 # Exit 2 = reject agent output (agent will be retried)
 # Logs to .claude/metrics/outcomes.jsonl
+# Requires: jq, git, date
+# Optional: python3 (pytest), npm (npm test), sed, tr, wc
+
+# shellcheck shell=sh
 
 set -uo pipefail
 

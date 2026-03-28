@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Stop hook: generate episodic memory from session trace
 # Runs at session end to auto-create session summary in .claude/memory/episodic/
+# Requires: jq, date, git
+# shellcheck shell=sh
 
-set -euo pipefail
+set -uo pipefail
 
 TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 DATE=$(date +%Y-%m-%d)

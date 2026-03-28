@@ -36,7 +36,9 @@ find .claude -type f | sort
 
 ## Conventions
 
-- Hooks: bash, `set -euo pipefail`, exit 0/2, <5ms for tracing hooks
+- Hooks: bash, `set -uo pipefail` (NOT `-euo`), exit 0/2, <5ms for tracing hooks
+- Hooks: `# Requires:` header declaring external deps, `# shellcheck shell=sh`
 - Agents: YAML frontmatter + markdown body
 - Rules: markdown with optional `paths:` frontmatter for scoping
 - Conventional commits required
+- Minimum deps: `jq` + `git` (see .claude/docs/CONVENTIONS.md for full table)

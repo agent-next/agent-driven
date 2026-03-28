@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # PreToolUse hook: block dangerous git operations on main/master
 # Exit 2 = block the tool call
+# Requires: jq, git
+
+# shellcheck shell=sh
 
 set -uo pipefail
 

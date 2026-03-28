@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # TaskCompleted hook: quality gate before marking task as done
 # Exit 2 = prevent completion (task stays in_progress)
+# Requires: jq, git, date
+# Optional: python3 (pytest), ruff, npm
+
+# shellcheck shell=sh
 
 set -uo pipefail
 

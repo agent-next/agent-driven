@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # SubagentStop hook: verify agent produced meaningful output
 # Exit 2 = reject agent output (agent will be retried)
+# Requires: jq, git, date
+# Optional: python3 (pytest), npm (npm test)
+
+# shellcheck shell=sh
 
 set -uo pipefail
 

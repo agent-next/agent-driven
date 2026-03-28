@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # PostToolUse hook: log all agent actions to session trace
 # Lightweight (<5ms overhead). Appends JSON-lines to .claude/traces/
+# Requires: jq
 
-set -euo pipefail
+# shellcheck shell=sh
+
+set -uo pipefail
 
 INPUT=$(cat)
 TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)

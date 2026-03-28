@@ -34,6 +34,26 @@ Optional fields vary by hook.
 ## Hook Protocol
 - Exit 0: pass (allow action)
 - Exit 2: block (reject action, agent receives message)
-- All hooks must be `#!/usr/bin/env bash` + `set -euo pipefail`
+- All hooks start with `#!/usr/bin/env bash` + `set -uo pipefail`
+  - Use `set -uo` (NOT `set -euo`) — `set -euo` causes hooks to exit on grep/jq failures,
+    breaking graceful `|| true` and `2>/dev/null` patterns
+  - All error handling is explicit via `|| true`, `2>/dev/null`, exit code checks
+- All hooks must declare `# Requires:` header listing external dependencies
+- All hooks must include `# shellcheck shell=sh` for static analysis
 - All hooks read JSON from stdin via `$(cat)` or `jq`
 - All hooks must complete in <10s (timeout enforced by CC)
+
+## External Dependencies
+
+| Tool | Required by | Install |
+|------|-------------|---------|
+| `jq` | ALL hooks (JSON parsing from stdin) | `brew install jq` / `apt install jq` |
+| `git` | branch-guard, metrics, verify, gate | usually pre-installed |
+| `ruff` | post-edit-lint (Python linting) | `pip install ruff` |
+| `python3` | metrics, verify, gate (pytest runner) | usually pre-installed |
+| `npm` | metrics, verify, gate (test runner, optional) | nodejs.org |
+| `prettier` | post-edit-lint (JS/TS formatting) | `npm i -g prettier` |
+
+**Minimum for basic operation:** `jq` + `git`
+**Full for Python projects:** + `ruff` + `python3` (pytest)
+**Full for JS/TS projects:** + `npm` + `prettier`
