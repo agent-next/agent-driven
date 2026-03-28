@@ -4,6 +4,7 @@
 > Version: 2.0 (addresses ccz review: 5/10 → target 8+/10)
 > Repo: agent-next/agent-driven (new)
 > Research: 20 parallel agents, 50+ OSS frameworks, 21 Anthropic + 15 OpenAI blog posts, cc-manager source audit, 14 days real dev data (427 commits, 80+ agents peak)
+> NOTE: Star counts and statistics in this doc are estimates from public GitHub/npm data as of 2026-03. See docs/research/ for detailed methodology.
 
 ## Vision
 
@@ -15,10 +16,10 @@ A reusable, project-agnostic scaffold that makes any codebase agent-ready. Built
 
 | Problem | Root Cause | Evidence |
 |---------|-----------|----------|
-| Agents crash mid-task | No checkpoint, no recovery | cc-manager: 43-50% success, 1.75x more logic errors than humans |
-| Agents drift off-track | Fire-and-forget, no mid-step verification | 85% per-step = 20% over 10 steps (compound failure) |
-| Guidelines ignored | CLAUDE.md = suggestions. Agents ignore ~15% of the time | Need hooks (exit code 2 = blocked, not warned) |
-| Context degrades | No rotation protocol | Performance drops 15-47% as context fills. 65% = degradation threshold |
+| Agents crash mid-task | No checkpoint, no recovery | cc-manager internal data: 43-50% task success rate (see docs/research/) |
+| Agents drift off-track | Fire-and-forget, no mid-step verification | Est. 85% per-step success = 20% over 10 steps (compound) |
+| Guidelines ignored | CLAUDE.md = suggestions, no enforcement | Observational: agents sometimes skip CLAUDE.md rules; hooks (exit 2) enforce |
+| Context degrades | No rotation protocol | Empirical observation: agent output quality degrades as context fills; 65% chosen as proactive threshold |
 | No visibility | Can't measure success rate, cost, or quality | "You can't hit a target you can't see" |
 | Scaffold not portable | CTO skill hardcoded to labclaw | Can't init a new project |
 
@@ -36,15 +37,15 @@ A reusable, project-agnostic scaffold that makes any codebase agent-ready. Built
 
 ### What We USE (already installed, battle-tested)
 
-| Tool | Stars | Covers | Our Action |
-|------|-------|--------|-----------|
-| superpowers | 118K★ | TDD, debugging, planning, brainstorming, code review, verification | USE as-is |
-| gstack | 52K★ | Sprint lifecycle: CEO/eng/design review, QA, ship, deploy, retro | USE as-is |
-| feature-dev | 89K installs | 7-phase guided feature dev with 3 agents | USE as-is |
-| code-review | 50K installs | Multi-agent parallel PR review | USE as-is |
+| Tool | Est. Installs | Covers | Our Action |
+|------|-------------|--------|-----------|
+| superpowers | ~118K (npm, est.) | TDD, debugging, planning, brainstorming, code review, verification | USE as-is |
+| gstack | ~52K (npm, est.) | Sprint lifecycle: CEO/eng/design review, QA, ship, deploy, retro | USE as-is |
+| feature-dev | ~89K (npm, est.) | 7-phase guided feature dev with 3 agents | USE as-is |
+| code-review | ~50K (npm, est.) | Multi-agent parallel PR review | USE as-is |
 | pr-review-toolkit | installed | Silent-failure-hunter, type-design, test-analyzer | USE as-is |
-| context7 | 72K installs | Live library docs in context | USE as-is |
-| ralph-loop | 57K installs | Autonomous multi-hour coding sessions | USE for /overnight |
+| context7 | ~72K (npm, est.) | Live library docs in context | USE as-is |
+| ralph-loop | ~57K (npm, est.) | Autonomous multi-hour coding sessions | USE for /overnight |
 
 ### What We BUILD (no existing tool covers this)
 
