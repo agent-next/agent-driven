@@ -12,7 +12,8 @@ COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || ec
 [ -z "$COMMAND" ] && exit 0
 
 # Block commits/pushes on protected branches
-if echo "$COMMAND" | grep -qE '^\s*git\s+(commit|push|merge|rebase|reset|checkout\s+(main|master))\b'; then
+# Catches: git checkout main, git switch main, git checkout master, git switch master
+if echo "$COMMAND" | grep -qE '^\s*git\s+(commit|push|merge|rebase|reset|checkout\s+(main|master)|switch\s+(main|master))\b'; then
   BRANCH=$(git branch --show-current 2>/dev/null)
   if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
     echo "BLOCKED: git operation on protected branch '$BRANCH'. Use a feature branch."
@@ -21,8 +22,13 @@ if echo "$COMMAND" | grep -qE '^\s*git\s+(commit|push|merge|rebase|reset|checkou
 fi
 
 # Block force-push everywhere
+# Catches: --force, -f, and +ref:ref syntax (e.g., git push origin +HEAD:refs/heads/main)
 if echo "$COMMAND" | grep -qE '^\s*git\s+push.*(--force|-f)\b'; then
   echo "BLOCKED: Force-push is never allowed."
+  exit 2
+fi
+if echo "$COMMAND" | grep -qE '^\s*git\s+push.*\+'; then
+  echo "BLOCKED: Force-push via +ref syntax is never allowed."
   exit 2
 fi
 

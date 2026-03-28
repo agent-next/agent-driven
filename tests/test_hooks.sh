@@ -164,6 +164,41 @@ else
 fi
 unset RC
 
+# --- Test 11: branch-guard blocks +ref:ref force push ---
+echo "Test 11: pre-tool-branch-guard.sh — blocks +ref:ref force push"
+echo '{"tool_input":{"command":"git push origin +HEAD:refs/heads/feat/test"}}' | bash "$ORIG_DIR/$HOOKS_DIR/pre-tool-branch-guard.sh" 2>&1; RC=$?
+if [ $RC -eq 2 ]; then
+  pass "blocks +ref:ref force push"
+else
+  fail "expected exit 2 for +ref:ref, got $RC"
+fi
+unset RC
+
+# --- Test 12: branch-guard blocks git switch main ---
+echo "Test 12: pre-tool-branch-guard.sh — blocks git switch main"
+cd "$TEST_DIR"
+rm -rf repo_switch && mkdir repo_switch && cd repo_switch
+git init -q
+git checkout -b main 2>/dev/null || git branch -m main 2>/dev/null
+git commit --allow-empty -m "init" -q
+echo '{"tool_input":{"command":"git switch main"}}' | bash "$ORIG_DIR/$HOOKS_DIR/pre-tool-branch-guard.sh" 2>&1; RC=$?
+if [ $RC -eq 2 ]; then
+  pass "blocks git switch main"
+else
+  fail "expected exit 2 for git switch main, got $RC"
+fi
+unset RC
+
+# --- Test 13: branch-guard blocks --force-with-lease ---
+echo "Test 13: pre-tool-branch-guard.sh — blocks --force-with-lease"
+echo '{"tool_input":{"command":"git push --force-with-lease origin feat/test"}}' | bash "$ORIG_DIR/$HOOKS_DIR/pre-tool-branch-guard.sh" 2>&1; RC=$?
+if [ $RC -eq 2 ]; then
+  pass "blocks --force-with-lease"
+else
+  fail "expected exit 2 for --force-with-lease, got $RC"
+fi
+unset RC
+
 echo ""
 echo "=== Results: $PASS passed, $FAIL failed ==="
 [ $FAIL -eq 0 ] && exit 0 || exit 1
