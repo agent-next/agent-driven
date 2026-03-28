@@ -1,0 +1,29 @@
+# Agent runtime data (generated, not committed)
+.claude/metrics/*.jsonl
+.claude/traces/*.jsonl
+.claude/memory/episodic/*.md
+!.claude/memory/episodic/.gitkeep
+
+# Local settings and logs
+.claude/settings.local.json
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Node (if used)
+node_modules/
+dist/
+
+# Python (if used)
+__pycache__/
+*.pyc
+.venv/

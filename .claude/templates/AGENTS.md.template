@@ -1,0 +1,22 @@
+# AGENTS.md
+
+<!-- Project name -->: <!-- one-line description -->
+
+## Build & Test
+
+```bash
+# Install
+<!-- install command -->
+
+# Test
+<!-- test command -->
+
+# Lint
+<!-- lint command -->
+```
+
+## Conventions
+
+- Conventional commits required
+- Tests required for all production code
+- One logical change per commit
